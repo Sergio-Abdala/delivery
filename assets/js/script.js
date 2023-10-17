@@ -100,13 +100,14 @@ exe();
 function prod(i, p){
     console.log(conteudo.menu[i].itens[p].titulo);
     //modal conteudo
-    document.getElementById('modalLabel').innerHTML = '<div class="mb-3 row"><label class="col-sm-2 col-form-label"><i id="titulo">'+ conteudo.menu[i].itens[p].titulo + '</i> R$: <small id="preco">'+ conteudo.menu[i].itens[p].valor +'</label> </small> &nbsp;&nbsp;&nbsp;<button class="btn btn-warning col-2" id=""btnMenos>-</button> <div class="col-3">  <strong id="quantidade">1</strong><small>unidade</small>  </div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-success col-2" id="btnMais">+</button><i id="totalParcial"> total parcial: &nbsp'+ conteudo.menu[i].itens[p].valor +'</i></div> ';
+    document.getElementById('modalLabel').innerHTML = '<div class="mb-3 row"><label class="col-sm-2 col-form-label"><i id="titulo">'+ conteudo.menu[i].itens[p].titulo + '</i> R$: <small id="preco">'+ conteudo.menu[i].itens[p].valor +'</label> </small> &nbsp;&nbsp;&nbsp;<button class="btn btn-warning col-2" id="btnMenos">-</button> <div class="col-3">  <strong id="quantidade">1</strong><small>unidade</small>  </div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-success col-2" id="btnMais">+</button><i id="totalParcial"> total parcial: &nbsp'+ conteudo.menu[i].itens[p].valor +'</i></div> ';
     //no corpo vai os ingredientes
     document.getElementById('modalBody').innerHTML = '';
     conteudo.menu[i].itens[p].ingredientes.forEach(ing => {
         document.getElementById('modalBody').innerHTML += '<div class="form-check"><input class="form-check-input" type="checkbox" value="'+ing+'" id="'+ing+'" checked><label class="form-check-label" for="flexCheckChecked">'+ing+'</label></div>';
         console.warn(document.getElementById(ing));
     });
+    document.getElementById('btnMenos').addEventListener('click', removePedido);
     document.getElementById('btnMais').addEventListener('click', addPedido);
     document.getElementById('addComanda').addEventListener('click', addPedido);//falta adicionar pedido a comanda???
 }
@@ -132,7 +133,30 @@ function addPedido() {
     document.getElementById('totalParcial').innerHTML ='total parcial: &nbsp'+ parseFloat(pedido.length + 1) * preco;
 }
 function removePedido() {
-    //
+    //let preco = parseFloat(document.getElementById('preco').innerHTML);
+    let sem = pedido[pedido.length - 1][2].split(';');
+    //sem.splice(sem.length - 1, 1);//ñ funcionou esvaziou array
+    console.log(sem);
+    let ingredientes = document.getElementsByTagName('input');
+    //tratar checkbox resetar
+    for (let i = 0; i < ingredientes.length; i++) {
+        //const element = ingredientes[i];
+        if (!ingredientes[i].checked && i > 0) {
+            ingredientes[i].checked = true;
+        }
+    }
+    for (let i = 0; i < sem.length-1; i++) {//copia configurações do pedido anterior
+        const id = sem[i];
+        document.getElementById(id).checked = false;
+    }
+    pedido.splice(pedido.length - 1, 1);//remove do array
+    //ajusta calculo cabeçalho
+    totalParcial();
+}
+function totalParcial() {
+    let preco = parseFloat(document.getElementById('preco').innerHTML);
+    document.getElementById('quantidade').innerHTML = pedido.length + 1;
+    document.getElementById('totalParcial').innerHTML ='total parcial: &nbsp'+ parseFloat(pedido.length + 1) * preco;
 }
 
 function img(ft){
