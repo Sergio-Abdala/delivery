@@ -89,7 +89,7 @@ function exe(){
             //
             for (let prod = 0; prod < conteudo.menu[item].itens.length; prod++) {
                 conteudo.menu[item].itens[prod].titulo;
-                document.getElementById('item'+item).innerHTML += '<div class="col-sm-12 col-lg-6 mb-6"> <div class="card mb-3" style="max-width: 540px;"> <div class="row g-0"> <div class="col-4"> <img src="'+img(conteudo.menu[item].itens[prod].img)+'" class="img-fluid rounded-start" alt="..."> </div> <div class="col-8"> <div class="card-body"> <h5 class="card-title">'+conteudo.menu[item].itens[prod].titulo+'</h5> <p class="card-text">'+conteudo.menu[item].itens[prod].descricao+'</p> <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal" onclick="prod('+item+', '+prod+')"> + comprar R$ '+conteudo.menu[item].itens[prod].valor+'</button> </div> </div> </div> </div> </div>';
+                document.getElementById('item'+item).innerHTML += '<div class="col-sm-12 col-lg-6 mb-6"> <div class="card mb-3" style="max-width: 540px;"> <div class="row g-0"> <div class="col-4"> <img src="'+img(conteudo.menu[item].itens[prod].img)+'" class="img-fluid rounded-start" alt="..."> </div> <div class="col-8"> <div class="card-body"> <h5 class="card-title">'+conteudo.menu[item].itens[prod].titulo+'</h5> <p class="card-text">'+conteudo.menu[item].itens[prod].descricao+'</p> <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal" onclick="prod('+item+', '+prod+')"> + comprar R$ '+parseFloat(conteudo.menu[item].itens[prod].valor).toFixed(2)+'</button> </div> </div> </div> </div> </div>';
             }
         }
                
@@ -100,7 +100,7 @@ exe();
 function prod(i, p){
     console.log(conteudo.menu[i].itens[p].titulo);
     //modal conteudo
-    document.getElementById('modalLabel').innerHTML = '<div class="mb-3 row"><label class="col-sm-2 col-form-label"><i id="titulo">'+ conteudo.menu[i].itens[p].titulo + '</i> R$: <small id="preco">'+ conteudo.menu[i].itens[p].valor +'</label> </small> &nbsp;&nbsp;&nbsp;<button class="btn btn-warning col-2" id="btnMenos">-</button> <div class="col-3">  <strong id="quantidade">1</strong><small>unidade</small>  </div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-success col-2" id="btnMais">+</button><i id="totalParcial"> total parcial: &nbsp'+ conteudo.menu[i].itens[p].valor +'</i></div> ';
+    document.getElementById('modalLabel').innerHTML = '<div class="mb-3 row"><label class="col-sm-2 col-form-label"><i id="titulo">'+ conteudo.menu[i].itens[p].titulo + '</i> R$: <small id="preco">'+ conteudo.menu[i].itens[p].valor.toFixed(2) +'</label> </small> &nbsp;&nbsp;&nbsp;<button class="btn btn-warning col-2" id="btnMenos">-</button> <div class="col-3">  <strong id="quantidade">1</strong><small>unidade</small>  </div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-success col-2" id="btnMais">+</button><i id="totalParcial"> total parcial: &nbsp'+ conteudo.menu[i].itens[p].valor.toFixed(2) +'</i></div> ';
     //no corpo vai os ingredientes
     document.getElementById('modalBody').innerHTML = '';
     conteudo.menu[i].itens[p].ingredientes.forEach(ing => {
