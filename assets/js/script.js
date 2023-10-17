@@ -100,7 +100,7 @@ exe();
 function prod(i, p){
     console.log(conteudo.menu[i].itens[p].titulo);
     //modal conteudo
-    document.getElementById('modalLabel').innerHTML = '<div class="mb-3 row"><label class="col-sm-2 col-form-label"><i id="titulo">'+ conteudo.menu[i].itens[p].titulo + '</i> R$: <small id="preco">'+ conteudo.menu[i].itens[p].valor.toFixed(2) +'</label> </small> &nbsp;&nbsp;&nbsp;<button class="btn btn-warning col-2" id="btnMenos">-</button> <div class="col-3">  <strong id="quantidade">1</strong><small>unidade</small>  </div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-success col-2" id="btnMais">+</button><i id="totalParcial"> total parcial: &nbsp'+ conteudo.menu[i].itens[p].valor.toFixed(2) +'</i></div> ';
+    document.getElementById('modalLabel').innerHTML = '<div class="mb-3 row"><label class="col-sm-2 col-form-label"><i id="titulo">'+ conteudo.menu[i].itens[p].titulo + '</i> R$: <small id="preco">'+ parseFloat(conteudo.menu[i].itens[p].valor).toFixed(2) +'</label> </small> &nbsp;&nbsp;&nbsp;<button class="btn btn-warning col-2" id="btnMenos">-</button> <div class="col-3">  <strong id="quantidade">1</strong><small>unidade</small>  </div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-success col-2" id="btnMais">+</button><i id="totalParcial"> total parcial: &nbsp'+ parseFloat(conteudo.menu[i].itens[p].valor).toFixed(2) +'</i></div> ';
     //no corpo vai os ingredientes
     document.getElementById('modalBody').innerHTML = '';
     conteudo.menu[i].itens[p].ingredientes.forEach(ing => {
