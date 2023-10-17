@@ -7,7 +7,7 @@ const conteudo = {
             itens: [
                 {
                     titulo: 'xis carne',
-                    valor: '15,75',
+                    valor: '15.75',
                     descricao: 'dois hamburguers,alface, queijo, molho especial num pão com gergelin...',
                     ingredientes: ['hamburguer', 'ovo', 'presunto', 'queijo', 'alface', 'tomate', 'milho', 'maionese', 'mostarda', 'ketchup'], 
                     sem: [],
@@ -15,13 +15,13 @@ const conteudo = {
                 },
                 {
                     titulo: 'xis frango', 
-                    valor: '8,20', 
+                    valor: 8.20, 
                     descricao: 'mussum ipsun',
                     img: false
                 },
                 {
                     titulo: 'xis calabresa', 
-                    valor: '1,00', 
+                    valor: 1.00, 
                     descricao: 'xis com calabresa...',
                     img: false
                 }
@@ -75,6 +75,7 @@ const conteudo = {
         }
     ]
 }
+var pedido = [];//new Array();
 
 function exe(){
     document.getElementById('corpo').innerHTML = '<br/>';
@@ -82,8 +83,7 @@ function exe(){
     for (let item = 0; item < conteudo.menu.length; item++) {
                 
         if (conteudo.menu[item].titulo) {
-            /*
-            */
+            
             document.getElementById('corpo').innerHTML += '<div class="row"> <h2 id="menu'+item+'" class="btn titulo">'+conteudo.menu[item].titulo+'</h2> </div>';
             document.getElementById('corpo').innerHTML += `<div class="row" id="item`+item+`" data-masonry='{"percentPosition": true }'></div>`;
             //
@@ -100,14 +100,39 @@ exe();
 function prod(i, p){
     console.log(conteudo.menu[i].itens[p].titulo);
     //modal conteudo
-    document.getElementById('modalLabel').innerHTML = conteudo.menu[i].itens[p].titulo;
+    document.getElementById('modalLabel').innerHTML = '<div class="mb-3 row"><label class="col-sm-2 col-form-label"><i id="titulo">'+ conteudo.menu[i].itens[p].titulo + '</i> R$: <small id="preco">'+ conteudo.menu[i].itens[p].valor +'</label> </small> &nbsp;&nbsp;&nbsp;<button class="btn btn-warning col-2" id=""btnMenos>-</button> <div class="col-3">  <strong id="quantidade">1</strong><small>unidade</small>  </div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-success col-2" id="btnMais">+</button><i id="totalParcial"> total parcial: &nbsp'+ conteudo.menu[i].itens[p].valor +'</i></div> ';
     //no corpo vai os ingredientes
     document.getElementById('modalBody').innerHTML = '';
     conteudo.menu[i].itens[p].ingredientes.forEach(ing => {
         document.getElementById('modalBody').innerHTML += '<div class="form-check"><input class="form-check-input" type="checkbox" value="'+ing+'" id="'+ing+'" checked><label class="form-check-label" for="flexCheckChecked">'+ing+'</label></div>';
         console.warn(document.getElementById(ing));
     });
-    
+    document.getElementById('btnMais').addEventListener('click', addPedido);
+    document.getElementById('addComanda').addEventListener('click', addPedido);//falta adicionar pedido a comanda???
+}
+
+function addPedido() {
+    //alert('add pedido');
+    let titulo = document.getElementById('titulo').innerHTML;
+    let preco = parseFloat(document.getElementById('preco').innerHTML);
+    let ingredientes = document.getElementsByTagName('input');
+    let sem = '';
+    //console.log(ingredientes);
+    for (let i = 0; i < ingredientes.length; i++) {
+        //const element = ingredientes[i];
+        if (!ingredientes[i].checked && i > 0) {
+            sem += ingredientes[i].value+';';
+        }
+    }
+    (sem == '') ? sem = 'completo' : null;
+
+    //console.log();
+    pedido.push([titulo,preco,sem]);
+    document.getElementById('quantidade').innerHTML = pedido.length + 1;
+    document.getElementById('totalParcial').innerHTML ='total parcial: &nbsp'+ parseFloat(pedido.length + 1) * preco;
+}
+function removePedido() {
+    //
 }
 
 function img(ft){
