@@ -181,7 +181,7 @@ function addComanda() {
         totalComanda += element[1];        
         //conteudoComanda
         document.getElementById('conteudoComanda').innerHTML += element[0] +' R$: '+ element[1] +' '; 
-        (element[2] != 'completo') ? 'sem ': null;
+        document.getElementById('conteudoComanda').innerHTML += (element[2] != 'completo') ? 'sem ': '';
         document.getElementById('conteudoComanda').innerHTML += element[2] +'<br/>';
     });
     document.getElementById('total').innerHTML = totalComanda.toFixed(2);
