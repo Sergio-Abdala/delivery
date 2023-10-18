@@ -76,6 +76,7 @@ const conteudo = {
     ]
 }
 var pedido = [];//new Array();
+var comanda = new Array();
 
 function exe(){
     document.getElementById('corpo').innerHTML = '<br/>';
@@ -103,13 +104,17 @@ function prod(i, p){
     document.getElementById('modalLabel').innerHTML = '<div class="mb-3 row"><label class="col-sm-2 col-form-label"><i id="titulo">'+ conteudo.menu[i].itens[p].titulo + '</i> R$: <small id="preco">'+ parseFloat(conteudo.menu[i].itens[p].valor).toFixed(2) +'</label> </small> &nbsp;&nbsp;&nbsp;<button class="btn btn-warning col-2" id="btnMenos">-</button> <div class="col-3">  <strong id="quantidade">1</strong><small>unidade</small>  </div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-success col-2" id="btnMais">+</button><i id="totalParcial"> total parcial: &nbsp'+ parseFloat(conteudo.menu[i].itens[p].valor).toFixed(2) +'</i></div> ';
     //no corpo vai os ingredientes
     document.getElementById('modalBody').innerHTML = '';
-    conteudo.menu[i].itens[p].ingredientes.forEach(ing => {
-        document.getElementById('modalBody').innerHTML += '<div class="form-check"><input class="form-check-input" type="checkbox" value="'+ing+'" id="'+ing+'" checked><label class="form-check-label" for="flexCheckChecked">'+ing+'</label></div>';
-        console.warn(document.getElementById(ing));
-    });
+    if (conteudo.menu[i].itens[p].ingredientes) {
+        conteudo.menu[i].itens[p].ingredientes.forEach(ing => {
+            document.getElementById('modalBody').innerHTML += '<div class="form-check"><input class="form-check-input" type="checkbox" value="'+ing+'" id="'+ing+'" checked><label class="form-check-label" for="flexCheckChecked">'+ing+'</label></div>';
+            console.warn(document.getElementById(ing));
+        });
+    }    
     document.getElementById('btnMenos').addEventListener('click', removePedido);
     document.getElementById('btnMais').addEventListener('click', addPedido);
-    document.getElementById('addComanda').addEventListener('click', addPedido);//falta adicionar pedido a comanda???
+    document.getElementById('cancelar').addEventListener('click', deletePedido);
+    document.getElementById('xclose').addEventListener('click', deletePedido);
+    document.getElementById('addComanda').addEventListener('click', addComanda);//falta adicionar pedido a comanda???
 }
 
 function addPedido() {
@@ -124,17 +129,16 @@ function addPedido() {
         if (!ingredientes[i].checked && i > 0) {
             sem += ingredientes[i].value+';';
         }
-    }
+    }    
     (sem == '') ? sem = 'completo' : null;
 
     //console.log();
     pedido.push([titulo,preco,sem]);
-    document.getElementById('quantidade').innerHTML = pedido.length + 1;
-    document.getElementById('totalParcial').innerHTML ='total parcial: &nbsp'+ parseFloat(pedido.length + 1) * preco;
+    totalParcial();
 }
 function removePedido() {
     //let preco = parseFloat(document.getElementById('preco').innerHTML);
-    let sem = pedido[pedido.length - 1][2].split(';');
+    let sem = (pedido[pedido.length - 1][2]) ? pedido[pedido.length - 1][2].split(';') : 'completo';
     //sem.splice(sem.length - 1, 1);//ñ funcionou esvaziou array
     console.log(sem);
     let ingredientes = document.getElementsByTagName('input');
@@ -156,7 +160,33 @@ function removePedido() {
 function totalParcial() {
     let preco = parseFloat(document.getElementById('preco').innerHTML);
     document.getElementById('quantidade').innerHTML = pedido.length + 1;
-    document.getElementById('totalParcial').innerHTML ='total parcial: &nbsp'+ parseFloat(pedido.length + 1) * preco;
+    document.getElementById('totalParcial').innerHTML ='total parcial: &nbsp'+ (parseFloat(pedido.length + 1) * preco).toFixed(2);
+}
+function deletePedido() {
+    //alert('pedido deletado');
+    pedido = [];//limpa array
+}
+function addComanda() {
+    addPedido();
+    pedido.forEach(lanche => {
+        comanda.push(lanche);
+    });
+    deletePedido();
+    //valor total da comanda
+    let totalComanda = 0;
+    document.getElementById('conteudoComanda').innerHTML = '';
+    //agrupar itens iguais da comanda na hora de imprimir???
+    comanda.forEach(element => {
+        //???
+        totalComanda += element[1];        
+        //conteudoComanda
+        document.getElementById('conteudoComanda').innerHTML += element[0] +' R$: '+ element[1] +' '; 
+        (element[2] != 'completo') ? 'sem ': null;
+        document.getElementById('conteudoComanda').innerHTML += element[2] +'<br/>';
+    });
+    document.getElementById('total').innerHTML = totalComanda.toFixed(2);
+    
+    
 }
 
 function img(ft){

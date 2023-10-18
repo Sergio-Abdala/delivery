@@ -186,9 +186,16 @@
     </a>
   </div>
 
+  <div style="min-height: 120px;" class="fixed-bottom">
+    <div class="collapse collapse-horizontal" id="collapseWidthComanda">
+      <div class="card card-body" style="width: 300px;" id="conteudoComanda">
+        This is some placeholder content for a horizontal collapse. It's hidden by default and shown when triggered.        
+      </div><br/><br/>
+    </div>
+  </div>
     
   <nav class="navbar fixed-bottom navbar-dark" ><!--bg-dark-->      
-    <button class="btn btn-success fixed-bottom" style="max-width: 250px; margin-bottom: 15px; margin-left: 15px;" type="button" >
+    <button class="btn btn-success fixed-bottom" style="max-width: 250px; margin-bottom: 15px; margin-left: 15px;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthComanda" aria-expanded="false" aria-controls="collapseWidthComanda">
       <strong id="total">00,00</strong> R$ seu pedido -->
     </button>    
   </nav>
@@ -269,7 +276,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="modalLabel"> title</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="xclose"></button>
           </div>
           <div class="modal-body">
             <div class="row">
@@ -278,8 +285,8 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary" id="addComanda">adicionar ao pedido</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancelar">Cancelar</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="addComanda">adicionar ao pedido</button>
           </div>
         </div>
       </div>
