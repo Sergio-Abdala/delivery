@@ -174,7 +174,8 @@ function addComanda() {
     deletePedido();
     //valor total da comanda
     let totalComanda = 0;
-    document.getElementById('conteudoComanda').innerHTML = '';
+    document.getElementById('conteudoComanda').innerHTML = '';//limpando comanda zerando deixando vazia
+    document.getElementById('conteudoComanda').innerHTML += '<h5>COMANDA</h5>';
     //agrupar itens iguais da comanda na hora de imprimir???
     comanda.forEach(element => {
         //???
@@ -186,7 +187,45 @@ function addComanda() {
     });
     document.getElementById('total').innerHTML = totalComanda.toFixed(2);
     
+    resumoComanda();
+}
+function resumoComanda(){
+    document.getElementById('conteudoComanda').innerHTML += '<hr><h6>RESUMO COMANDA</h6>';
+    //como resumir a comanda???
+    let resumo = [];
+    let unidades = [0];
     
+    comanda.forEach(lanche => {//seleciona quantos itens existem na comanda
+        //console.log(lanche);
+        let jaTem = false;
+        resumo.forEach(res => {
+            if (res[0] == lanche[0] && res[1] == lanche[1] && res[2] == lanche[2]) {//(res == lanche){
+                jaTem = true;
+            }
+        });
+        (!jaTem) ? resumo.push(lanche) : null;
+    });
+    let cont=[];
+    comanda.forEach(lanche => {//agrupa conta os itens selecionados
+        
+        for (let i = 0; i < resumo.length; i++) {
+            const res = resumo[i];
+            if (res[0] == lanche[0] && res[1] == lanche[1] && res[2] == lanche[2]){
+                (cont[i]) ? cont[i]++ : cont[i] = 1;
+            }
+        }
+    });
+    unidades = cont;//substituir depois
+    console.log('resumo da comanda');
+    console.log(resumo);
+    //imprimir resumo
+    for (let i = 0; i < resumo.length; i++) {
+        const lanch = resumo[i];
+        console.log(lanch);
+        document.getElementById('conteudoComanda').innerHTML += '-->>'+ unidades[i] +' unidades '+lanch[0] + ' R$: '+ (lanch[1] *unidades[i]).toFixed(2) +'<br/>';
+        document.getElementById('conteudoComanda').innerHTML += (lanch[2] != 'completo') ? 'sem ' : '';
+        document.getElementById('conteudoComanda').innerHTML += lanch[2] +'<br/>';
+    }
 }
 
 function img(ft){
