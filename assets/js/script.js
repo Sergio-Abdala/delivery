@@ -172,25 +172,31 @@ function addComanda() {
         comanda.push(lanche);
     });
     deletePedido();
+    renderComanda();
+    //resumoComanda();
+}
+function renderComanda(){
     //valor total da comanda
     let totalComanda = 0;
-    document.getElementById('conteudoComanda').innerHTML = '';//limpando comanda zerando deixando vazia
-    document.getElementById('conteudoComanda').innerHTML += '<h5>COMANDA</h5>';
+    //document.getElementById('conteudoComanda').innerHTML = '';//limpando comanda zerando deixando vazia
+    document.getElementById('conteudoComanda').innerHTML = '<h5>COMANDA</h5>';
     //agrupar itens iguais da comanda na hora de imprimir???
-    comanda.forEach(element => {
+    let index=0;
+    comanda.forEach(lanche => {
         //???
-        totalComanda += element[1];        
+        totalComanda += lanche[1];        
         //conteudoComanda
-        document.getElementById('conteudoComanda').innerHTML += element[0] +' R$: '+ element[1] +' '; 
-        document.getElementById('conteudoComanda').innerHTML += (element[2] != 'completo') ? 'sem ': '';
-        document.getElementById('conteudoComanda').innerHTML += element[2] +'<br/>';
+        document.getElementById('conteudoComanda').innerHTML += '<i class="bi bi-trash3-fill" onclick="excluirLanche('+index+')">'+ lanche[0] +' R$: '+ lanche[1] +' '; 
+        document.getElementById('conteudoComanda').innerHTML += (lanche[2] != 'completo') ? 'sem ': '';
+        document.getElementById('conteudoComanda').innerHTML += lanche[2] +'</i><br/>';
+        index++;
     });
+    document.getElementById('conteudoComanda').innerHTML += '<h6 class="btn btn-info" onclick="resumoComanda()">RESUMO COMANDA</h6>';
     document.getElementById('total').innerHTML = totalComanda.toFixed(2);
     
-    resumoComanda();
 }
 function resumoComanda(){
-    document.getElementById('conteudoComanda').innerHTML += '<hr><h6>RESUMO COMANDA</h6>';
+    document.getElementById('conteudoComanda').innerHTML = '<h6>RESUMO COMANDA</h6>';
     //como resumir a comanda???
     let resumo = [];
     let unidades = [0];
@@ -215,7 +221,7 @@ function resumoComanda(){
             }
         }
     });
-    unidades = cont;//substituir depois
+    unidades = cont;//substituir depois???
     console.log('resumo da comanda');
     console.log(resumo);
     //imprimir resumo
@@ -226,6 +232,12 @@ function resumoComanda(){
         document.getElementById('conteudoComanda').innerHTML += (lanch[2] != 'completo') ? 'sem ' : '';
         document.getElementById('conteudoComanda').innerHTML += lanch[2] +'<br/>';
     }
+    document.getElementById('conteudoComanda').innerHTML += '<h6 class="btn btn-info" onclick="renderComanda()">voltar COMANDA</h6>';
+}
+function excluirLanche(index) {
+    //alert('excluir: '+index);
+    (confirm('excluir '+ comanda[index][0] +' R$ '+ comanda[index][1])) ? comanda.splice(index, 1) : null;
+    renderComanda();
 }
 
 function img(ft){
