@@ -191,7 +191,7 @@ function renderComanda(){
         document.getElementById('conteudoComanda').innerHTML += lanche[2] +'</i><br/>';
         index++;
     });
-    document.getElementById('conteudoComanda').innerHTML += '<h6 class="btn btn-info" onclick="resumoComanda()">RESUMO COMANDA</h6>';
+    document.getElementById('conteudoComanda').innerHTML += '<h6 class="btn btn-secondary" onclick="resumoComanda()">RESUMO COMANDA</h6>';
     document.getElementById('total').innerHTML = totalComanda.toFixed(2);
     
 }
@@ -232,7 +232,7 @@ function resumoComanda(){
         document.getElementById('conteudoComanda').innerHTML += (lanch[2] != 'completo') ? 'sem ' : '';
         document.getElementById('conteudoComanda').innerHTML += lanch[2] +'<br/>';
     }
-    document.getElementById('conteudoComanda').innerHTML += '<h6 class="btn btn-info" onclick="renderComanda()">voltar COMANDA</h6>';
+    document.getElementById('conteudoComanda').innerHTML += '<h6 class="btn btn-secondary" onclick="renderComanda()">voltar COMANDA</h6>';
 }
 function excluirLanche(index) {
     //alert('excluir: '+index);
